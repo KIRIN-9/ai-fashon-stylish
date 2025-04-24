@@ -11,7 +11,7 @@ const initialClothingItems = [
     category: 'Outerwear',
     color: 'Blue',
     season: 'Spring/Fall',
-    image: 'https://placehold.co/300x400/3b82f6/ffffff?text=Blue+Denim+Jacket',
+    image: '/images/closet/denim-jacket.jpg',
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const initialClothingItems = [
     category: 'Tops',
     color: 'White',
     season: 'All Seasons',
-    image: 'https://placehold.co/300x400/ffffff/000000?text=White+T-Shirt',
+    image: '/images/closet/white-tshirt.jpg',
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const initialClothingItems = [
     category: 'Bottoms',
     color: 'Black',
     season: 'All Seasons',
-    image: 'https://placehold.co/300x400/000000/ffffff?text=Black+Jeans',
+    image: '/images/closet/black-jeans.jpg',
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ const initialClothingItems = [
     category: 'Footwear',
     color: 'Brown',
     season: 'Fall/Winter',
-    image: 'https://placehold.co/300x400/8b4513/ffffff?text=Brown+Leather+Boots',
+    image: '/images/closet/leather-boots.jpg',
   },
 ];
 
@@ -74,7 +74,7 @@ export default function Closet() {
       id: newId,
       image: newItem.image || `https://placehold.co/300x400/cccccc/000000?text=${encodeURIComponent(newItem.name)}`,
     };
-    
+
     setClothingItems([...clothingItems, itemToAdd]);
     setNewItem({
       name: '',

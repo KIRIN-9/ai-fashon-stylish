@@ -1,12 +1,29 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Initialize the Gemini API with your API key
-// In a production app, you would store this in environment variables
-const API_KEY = 'YOUR_GEMINI_API_KEY'; // Replace with your actual API key
-const genAI = new GoogleGenerativeAI(API_KEY);
+// Initialize with a placeholder, will be updated when the API key is fetched
+let API_KEY = '';
+let genAI: GoogleGenerativeAI;
+let model: any;
 
-// Get the generative model
-const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+// Function to initialize the Gemini API
+const initGeminiAPI = async () => {
+  if (!API_KEY) {
+    try {
+      // Use a hardcoded API key for now
+      API_KEY = 'AIzaSyCI8YMBO2m6MK8pnfLRMB0ZPl8s0Of70wE';
+    } catch (error) {
+      console.error('Failed to set API key:', error);
+    }
+
+    // Initialize the Gemini API with the API key
+    genAI = new GoogleGenerativeAI(API_KEY);
+
+    // Get the Gemini 2.0 Flash model for faster responses
+    model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  }
+
+  return { genAI, model };
+};
 
 export interface OutfitRecommendation {
   name: string;
@@ -37,18 +54,21 @@ export async function getOutfitRecommendations(
   }
 ): Promise<OutfitRecommendation[]> {
   try {
+    // Initialize the Gemini API
+    const { model } = await initGeminiAPI();
+
     // Create a prompt for Gemini
     const prompt = `
       As an AI fashion stylist, create 3 outfit recommendations based on the following closet items and preferences:
-      
+
       Closet Items:
       ${closetItems.map(item => `- ${item.name} (${item.category}, ${item.color}, ${item.season})`).join('\n')}
-      
+
       Preferences:
       - Occasion: ${preferences.occasion || 'Any'}
       - Weather: ${preferences.weather || 'Any'}
       - Style Preference: ${preferences.stylePreference || 'Any'}
-      
+
       For each outfit, provide:
       1. A name for the outfit
       2. A brief description
@@ -56,7 +76,7 @@ export async function getOutfitRecommendations(
       4. Suitable occasion
       5. Suitable weather
       6. Style notes or tips
-      
+
       Format the response as a JSON array of objects with the following structure:
       [
         {
@@ -74,19 +94,19 @@ export async function getOutfitRecommendations(
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
+
     // Parse the JSON response
     // Find JSON in the response (in case Gemini adds extra text)
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (!jsonMatch) {
       throw new Error('Failed to parse Gemini response');
     }
-    
+
     const recommendations = JSON.parse(jsonMatch[0]) as OutfitRecommendation[];
     return recommendations;
   } catch (error) {
     console.error('Error getting outfit recommendations:', error);
-    
+
     // Return mock data in case of error
     return [
       {
@@ -114,20 +134,23 @@ export async function getOutfitRecommendations(
  */
 export async function analyzeStyle(closetItems: any[]): Promise<StyleAnalysis> {
   try {
+    // Initialize the Gemini API
+    const { model } = await initGeminiAPI();
+
     // Create a prompt for Gemini
     const prompt = `
       As an AI fashion stylist, analyze the following closet items and provide a style analysis:
-      
+
       Closet Items:
       ${closetItems.map(item => `- ${item.name} (${item.category}, ${item.color}, ${item.season})`).join('\n')}
-      
+
       Provide:
       1. The dominant colors in the wardrobe (top 3)
       2. The dominant style (e.g., casual, formal, bohemian, etc.)
       3. Versatility score (1-10, where 10 is extremely versatile)
       4. Seasonal balance assessment
       5. 3-5 recommendations to improve the wardrobe
-      
+
       Format the response as a JSON object with the following structure:
       {
         "dominantColors": ["Color 1", "Color 2", "Color 3"],
@@ -142,19 +165,19 @@ export async function analyzeStyle(closetItems: any[]): Promise<StyleAnalysis> {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
+
     // Parse the JSON response
     // Find JSON in the response (in case Gemini adds extra text)
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       throw new Error('Failed to parse Gemini response');
     }
-    
+
     const analysis = JSON.parse(jsonMatch[0]) as StyleAnalysis;
     return analysis;
   } catch (error) {
     console.error('Error analyzing style:', error);
-    
+
     // Return mock data in case of error
     return {
       dominantColors: ['Blue', 'Black', 'White'],
@@ -184,22 +207,25 @@ export async function getStyleAdvice(
   }
 ): Promise<string> {
   try {
+    // Initialize the Gemini API
+    const { model } = await initGeminiAPI();
+
     // Create a prompt for Gemini
     const prompt = `
       As an AI fashion stylist, provide personalized style advice based on the following preferences:
-      
+
       Preferences:
       - Style Type: ${preferences.styleType || 'Not specified'}
       - Body Type: ${preferences.bodyType || 'Not specified'}
       - Color Preferences: ${preferences.colorPreferences?.join(', ') || 'Not specified'}
       - Items to Avoid: ${preferences.avoidItems?.join(', ') || 'None'}
-      
+
       Provide detailed advice on:
       1. Clothing silhouettes that flatter the body type
       2. Color combinations that work well with the preferences
       3. Key pieces to invest in for the preferred style
       4. Styling tips specific to the preferences
-      
+
       Format the response as a detailed paragraph of advice.
     `;
 
@@ -209,7 +235,7 @@ export async function getStyleAdvice(
     return response.text();
   } catch (error) {
     console.error('Error getting style advice:', error);
-    
+
     // Return mock data in case of error
     return `
       Based on your preferences for a business casual style and athletic body type, focus on well-fitted clothing that highlights your shoulders and tapers at the waist. Structured blazers, slim-fit shirts, and straight-leg pants will complement your physique nicely. Your preference for neutral colors provides a versatile foundation; try incorporating occasional pops of color through accessories or a statement piece. Invest in quality basics like a navy blazer, well-fitted white shirts, and versatile trousers that can be mixed and matched. For a more polished look, pay attention to proper fit—especially around the shoulders and waist—and consider having key pieces tailored. Layering will add dimension to your outfits while maintaining a professional appearance.
