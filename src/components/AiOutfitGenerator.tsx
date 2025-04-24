@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getOutfitRecommendations, OutfitRecommendation } from '@/services/geminiService';
 import LoadingSpinner from './LoadingSpinner';
+import ColorPaletteImage from './ColorPaletteImage';
 
 interface AiOutfitGeneratorProps {
   occasion?: string;
@@ -73,6 +74,50 @@ export default function AiOutfitGenerator({ occasion, weather }: AiOutfitGenerat
   const occasions = ['Casual', 'Business Casual', 'Formal', 'Athletic', 'Party'];
   const weatherConditions = ['Hot', 'Mild', 'Cold', 'Rainy', 'Sunny', 'Indoor'];
   const stylePreferences = ['Classic', 'Casual', 'Trendy', 'Minimalist', 'Smart Casual', 'Business Casual'];
+
+  // State to track image loading status
+  const [imageCache, setImageCache] = useState<Record<string, boolean>>({});
+
+  // Helper function to get appropriate image for an item
+  const getImageForItem = (itemName: string): string => {
+    const itemNameLower = itemName.toLowerCase();
+
+    // Check for specific item types
+    if (itemNameLower.includes('jacket') || itemNameLower.includes('denim')) {
+      return '/images/closet/denim-jacket.jpg';
+    } else if (itemNameLower.includes('t-shirt') || itemNameLower.includes('tee')) {
+      return '/images/closet/white-tshirt.jpg';
+    } else if (itemNameLower.includes('jeans') || itemNameLower.includes('pants')) {
+      return '/images/closet/black-jeans.jpg';
+    } else if (itemNameLower.includes('boots') || itemNameLower.includes('shoes')) {
+      return '/images/closet/leather-boots.jpg';
+    } else if (itemNameLower.includes('blazer') || itemNameLower.includes('suit')) {
+      return '/images/closet/navy-blazer.jpg';
+    } else if (itemNameLower.includes('shirt')) {
+      return '/images/closet/blue-shirt.jpg';
+    } else if (itemNameLower.includes('watch') || itemNameLower.includes('accessory')) {
+      return '/images/accessories/watch.jpg';
+    } else if (itemNameLower.includes('casual')) {
+      return '/images/outfits/casual-outfit-1.jpg';
+    } else if (itemNameLower.includes('formal') || itemNameLower.includes('business')) {
+      return '/images/outfits/business-outfit-1.jpg';
+    } else {
+      // Return empty string to indicate we should use color palette
+      return '';
+    }
+  };
+
+  // Function to check if an image exists
+  const checkImageExists = async (url: string): Promise<boolean> => {
+    if (!url) return false;
+
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      return response.ok;
+    } catch (error) {
+      return false;
+    }
+  };
 
   const generateOutfits = async () => {
     setIsLoading(true);
@@ -235,12 +280,24 @@ export default function AiOutfitGenerator({ occasion, weather }: AiOutfitGenerat
                   {outfit.items.map((item, itemIndex) => (
                     <div key={itemIndex} className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm">
                       <div className="relative h-40 w-full">
-                        <Image
-                          src={`https://placehold.co/300x400/e2e8f0/1e293b?text=${encodeURIComponent(item)}`}
-                          alt={item}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                        />
+                        {getImageForItem(item) ? (
+                          <Image
+                            src={getImageForItem(item)}
+                            alt={item}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            onError={() => {
+                              // If image fails to load, update cache
+                              setImageCache(prev => ({...prev, [item]: false}));
+                            }}
+                          />
+                        ) : (
+                          <ColorPaletteImage
+                            itemName={item}
+                            width="100%"
+                            height="100%"
+                          />
+                        )}
                       </div>
                       <div className="p-3">
                         <p className="text-sm font-medium text-gray-800 dark:text-white">{item}</p>

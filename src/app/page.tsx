@@ -5,12 +5,31 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-20">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-800 dark:text-white">
+      <section
+        className="py-20 relative"
+        style={{
+          backgroundImage: 'url(/images/backgrounds/fashion-bg-1.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          borderRadius: '0.5rem',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            borderRadius: '0.5rem',
+          }}
+        ></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
             AI Fashion Stylist
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
             Your personal AI stylist that helps you look your best every day with personalized outfit recommendations.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -21,10 +40,10 @@ export default function Home() {
               Take Style Quiz
             </Link>
             <Link
-              href="/about"
-              className="bg-white hover:bg-gray-100 text-blue-600 font-medium py-3 px-8 rounded-full border border-blue-600 transition-colors dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-blue-400 dark:border-blue-400"
+              href="/ai-outfit-generator"
+              className="bg-white hover:bg-gray-100 text-blue-600 font-medium py-3 px-8 rounded-full border border-blue-600 transition-colors"
             >
-              Learn More
+              AI Outfit Generator
             </Link>
           </div>
         </div>
@@ -37,10 +56,14 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Feature 1 */}
             <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
+              <div className="relative h-48 w-full mb-6 rounded-lg overflow-hidden">
+                <Image
+                  src="/images/closet/denim-jacket.jpg"
+                  alt="Virtual Closet"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="rounded-lg"
+                />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Virtual Closet</h3>
               <p className="text-gray-600 dark:text-gray-300">Digitize your wardrobe by uploading photos of your clothing items and organize them by category.</p>
@@ -48,10 +71,14 @@ export default function Home() {
 
             {/* Feature 2 */}
             <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
+              <div className="relative h-48 w-full mb-6 rounded-lg overflow-hidden">
+                <Image
+                  src="/images/outfits/business-outfit-1.jpg"
+                  alt="AI Recommendations"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="rounded-lg"
+                />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">AI Recommendations</h3>
               <p className="text-gray-600 dark:text-gray-300">Get personalized outfit suggestions based on your style preferences, occasion, and weather.</p>
@@ -59,10 +86,14 @@ export default function Home() {
 
             {/* Feature 3 */}
             <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
+              <div className="relative h-48 w-full mb-6 rounded-lg overflow-hidden">
+                <Image
+                  src="/images/outfits/smart-casual-1.jpg"
+                  alt="Style Insights"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="rounded-lg"
+                />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Style Insights</h3>
               <p className="text-gray-600 dark:text-gray-300">Gain insights into your style preferences with analytics on colors, categories, and seasonal trends.</p>
@@ -77,17 +108,41 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+              <div className="relative h-40 w-40 mx-auto mb-4 rounded-full overflow-hidden">
+                <Image
+                  src="/images/outfits/casual-outfit-1.jpg"
+                  alt="Create Your Profile"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="rounded-full"
+                />
+              </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Create Your Profile</h3>
               <p className="text-gray-600 dark:text-gray-300">Take our style quiz to help us understand your preferences and fashion goals.</p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+              <div className="relative h-40 w-40 mx-auto mb-4 rounded-full overflow-hidden">
+                <Image
+                  src="/images/closet/blue-shirt.jpg"
+                  alt="Upload Your Clothes"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="rounded-full"
+                />
+              </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Upload Your Clothes</h3>
               <p className="text-gray-600 dark:text-gray-300">Add items from your wardrobe to your virtual closet with photos and details.</p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+              <div className="relative h-40 w-40 mx-auto mb-4 rounded-full overflow-hidden">
+                <Image
+                  src="/images/outfits/business-outfit-2.jpg"
+                  alt="Get Recommendations"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="rounded-full"
+                />
+              </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Get Recommendations</h3>
               <p className="text-gray-600 dark:text-gray-300">Receive personalized outfit suggestions tailored to your style, occasion, and weather.</p>
             </div>
@@ -96,16 +151,41 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600 text-white">
-        <div className="container mx-auto px-6 text-center">
+      <section
+        className="py-20 text-white relative"
+        style={{
+          backgroundImage: 'url(/images/backgrounds/fashion-bg-2.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(37, 99, 235, 0.8)',
+          }}
+        ></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to transform your style?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">Join thousands of users who have elevated their fashion game with our AI Fashion Stylist.</p>
-          <Link
-            href="/closet"
-            className="bg-white text-blue-600 hover:bg-gray-100 font-medium py-3 px-8 rounded-full transition-colors inline-block"
-          >
-            Explore Your Closet
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/closet"
+              className="bg-white text-blue-600 hover:bg-gray-100 font-medium py-3 px-8 rounded-full transition-colors inline-block"
+            >
+              Explore Your Closet
+            </Link>
+            <Link
+              href="/ai-outfit-generator"
+              className="bg-transparent text-white hover:bg-white/10 font-medium py-3 px-8 rounded-full border border-white transition-colors inline-block"
+            >
+              Try AI Generator
+            </Link>
+          </div>
         </div>
       </section>
 
