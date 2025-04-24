@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { analyzeStyle, StyleAnalysis } from '@/services/geminiService';
 
 // Mock data for style insights
@@ -58,8 +58,21 @@ const styleRecommendations = [
   },
 ];
 
+// Define the type for chart data items
+interface ChartDataItem {
+  name: string;
+  value: number;
+}
+
+// Define the props interface for the BarChart component
+interface BarChartProps {
+  data: ChartDataItem[];
+  title: string;
+  colorClass: string;
+}
+
 // Component for rendering a simple bar chart
-const BarChart = ({ data, title, colorClass }) => {
+const BarChart = ({ data, title, colorClass }: BarChartProps) => {
   const maxValue = Math.max(...data.map(item => item.value));
 
   return (

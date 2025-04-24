@@ -3,8 +3,32 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+// Define types for user data
+interface StyleProfile {
+  styleType: string;
+  colorPalette: string;
+  primaryDressCode: string;
+  bodyType: string;
+  preferences: string[];
+}
+
+interface UserStats {
+  itemsInCloset: number;
+  outfitsSaved: number;
+  styleQuizCompleted: boolean;
+  memberSince: string;
+}
+
+interface UserData {
+  name: string;
+  email: string;
+  avatar: string;
+  styleProfile: StyleProfile;
+  stats: UserStats;
+}
+
 // Mock user data
-const initialUserData = {
+const initialUserData: UserData = {
   name: 'Alex Johnson',
   email: 'alex.johnson@example.com',
   avatar: 'https://placehold.co/150x150/e2e8f0/1e293b?text=AJ',
@@ -34,16 +58,27 @@ export default function Profile() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
+
     if (name.includes('.')) {
       const [section, field] = name.split('.');
-      setEditedData({
-        ...editedData,
-        [section]: {
-          ...editedData[section as keyof typeof editedData],
-          [field]: value,
-        },
-      });
+
+      if (section === 'styleProfile') {
+        setEditedData({
+          ...editedData,
+          styleProfile: {
+            ...editedData.styleProfile,
+            [field]: value,
+          },
+        });
+      } else if (section === 'stats') {
+        setEditedData({
+          ...editedData,
+          stats: {
+            ...editedData.stats,
+            [field]: value,
+          },
+        });
+      }
     } else {
       setEditedData({
         ...editedData,
@@ -66,7 +101,7 @@ export default function Profile() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">My Profile</h1>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
           {/* Profile Header */}
           <div className="p-6 sm:p-8 bg-gray-50 dark:bg-gray-700 flex flex-col sm:flex-row items-center sm:items-start gap-6">
@@ -102,7 +137,7 @@ export default function Profile() {
               </button>
             </div>
           </div>
-          
+
           {/* Profile Content */}
           <div className="p-6 sm:p-8">
             {isEditing ? (
@@ -142,7 +177,7 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Style Profile</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -188,7 +223,7 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex justify-end space-x-3 mt-6">
                   <button
                     onClick={handleCancel}
@@ -229,7 +264,7 @@ export default function Profile() {
                     </dl>
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Style Preferences</h3>
                   <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
@@ -238,7 +273,7 @@ export default function Profile() {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Account Statistics</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

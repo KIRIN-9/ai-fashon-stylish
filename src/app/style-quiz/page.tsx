@@ -198,7 +198,7 @@ export default function StyleQuiz() {
               </div>
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Your Style Profile is Complete!</h2>
               <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
-                Based on your answers, we've created a personalized style profile for you. You'll now receive outfit recommendations tailored to your preferences.
+                Based on your answers, we&apos;ve created a personalized style profile for you. You&apos;ll now receive outfit recommendations tailored to your preferences.
               </p>
               <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-8 max-w-md mx-auto">
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Your Style Summary</h3>

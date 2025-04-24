@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -78,7 +78,7 @@ const occasions = ['Casual', 'Business Casual', 'Formal', 'Athletic', 'Party'];
 const weatherConditions = ['Hot', 'Mild', 'Cold', 'Rainy', 'Sunny', 'Indoor'];
 
 export default function CreateOutfit() {
-  const [clothingItems, setClothingItems] = useState(initialClothingItems);
+  const [clothingItems] = useState(initialClothingItems);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [outfitName, setOutfitName] = useState('');
@@ -115,14 +115,14 @@ export default function CreateOutfit() {
   // Handle save outfit
   const handleSaveOutfit = () => {
     if (!isOutfitValid()) return;
-    
+
     setIsSaving(true);
-    
+
     // Simulate API call to save outfit
     setTimeout(() => {
       setIsSaving(false);
       setSaveSuccess(true);
-      
+
       // Reset form after successful save
       setTimeout(() => {
         setShowSaveModal(false);
@@ -149,7 +149,7 @@ export default function CreateOutfit() {
       // Select a random footwear
       clothingItems.find(item => item.category === 'Footwear')?.id,
     ].filter(Boolean) as number[];
-    
+
     setSelectedItems(recommendedOutfit);
   };
 
@@ -188,7 +188,7 @@ export default function CreateOutfit() {
         {/* Selected Items Preview */}
         <div className="lg:col-span-1 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Selected Items</h2>
-          
+
           {selectedItems.length === 0 ? (
             <div className="text-center py-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -223,7 +223,7 @@ export default function CreateOutfit() {
                   </button>
                 </div>
               ))}
-              
+
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-2">Outfit Summary</h3>
                 <div className="space-y-2">
@@ -241,12 +241,12 @@ export default function CreateOutfit() {
             </div>
           )}
         </div>
-        
+
         {/* Clothing Items Selection */}
         <div className="lg:col-span-2">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm mb-6">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Select Items from Your Closet</h2>
-            
+
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2 mb-6">
               {categories.map((category) => (
@@ -263,7 +263,7 @@ export default function CreateOutfit() {
                 </button>
               ))}
             </div>
-            
+
             {/* Items Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {filteredItems.map((item) => (
@@ -305,7 +305,7 @@ export default function CreateOutfit() {
                 </div>
               ))}
             </div>
-            
+
             {filteredItems.length === 0 && (
               <div className="text-center py-8">
                 <p className="text-gray-500 dark:text-gray-400">No items found in this category.</p>

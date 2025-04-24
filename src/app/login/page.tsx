@@ -20,10 +20,10 @@ export default function Login() {
     try {
       // In a real app, this would be an API call to authenticate the user
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // For demo purposes, we'll just redirect to the closet page
       router.push('/closet');
-    } catch (err) {
+    } catch {
       setError('Invalid email or password. Please try again.');
     } finally {
       setLoading(false);
@@ -44,7 +44,7 @@ export default function Login() {
             </Link>
           </p>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {error && (
             <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 mb-6">
@@ -60,7 +60,7 @@ export default function Login() {
               </div>
             </div>
           )}
-          
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">

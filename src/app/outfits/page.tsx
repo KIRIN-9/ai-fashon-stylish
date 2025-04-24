@@ -109,7 +109,7 @@ const occasions = ['All', 'Casual', 'Smart Casual', 'Formal', 'Athletic', 'Party
 const weatherConditions = ['All', 'Hot', 'Mild', 'Cold', 'Rainy', 'Sunny', 'Indoor'];
 
 export default function OutfitRecommendations() {
-  const [outfits, setOutfits] = useState(initialOutfits);
+  const [outfits] = useState(initialOutfits);
   const [selectedOccasion, setSelectedOccasion] = useState('All');
   const [selectedWeather, setSelectedWeather] = useState('All');
   const [currentWeather, setCurrentWeather] = useState({ temp: 72, condition: 'Sunny' });

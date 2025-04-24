@@ -4,28 +4,28 @@ import { generateGradientBackground, getContrastTextColor, colorPalettes } from 
 
 interface ColorPaletteImageProps {
   itemName: string;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   className?: string;
 }
 
-export default function ColorPaletteImage({ 
-  itemName, 
-  width = 300, 
+export default function ColorPaletteImage({
+  itemName,
+  width = 300,
   height = 400,
   className = ''
 }: ColorPaletteImageProps) {
   const background = generateGradientBackground(itemName);
-  const textColor = getContrastTextColor(background.includes('#') 
-    ? background.substring(background.indexOf('#'), background.indexOf('#') + 7) 
+  const textColor = getContrastTextColor(background.includes('#')
+    ? background.substring(background.indexOf('#'), background.indexOf('#') + 7)
     : colorPalettes.casual.primary);
-  
+
   return (
-    <div 
+    <div
       className={`flex items-center justify-center ${className}`}
-      style={{ 
-        width: width, 
-        height: height, 
+      style={{
+        width: width,
+        height: height,
         background: background,
         color: textColor,
         fontFamily: 'sans-serif',
@@ -33,7 +33,7 @@ export default function ColorPaletteImage({
         overflow: 'hidden'
       }}
     >
-      <div 
+      <div
         style={{
           position: 'absolute',
           top: 0,
